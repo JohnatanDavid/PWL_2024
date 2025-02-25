@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 //1.d
 Route::get('/world', function () {
     return 'World';
 });
 
-//1.b 
-Route::get('/hello', function () {
-    return 'Hello World';
-}); 
+//1.b --> 3D
+Route::get('/hello', [WelcomeController::class,'hello']); 
 
 //1.f
 Route::get('/', function () {
@@ -106,3 +105,17 @@ Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 Route::get('/', function () {
     return view('welcome');
 });
+
+//-- Resource Controller
+use App\Http\Controllers\PhotoController;
+
+Route::resource('photos', PhotoController::class);
+
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
+
