@@ -41,6 +41,8 @@ Route::get('/user/{name?}', function ($name='John') {
     return 'Nama saya '.$name;
     });
     
+
+
 /* //--route Name
 
 
@@ -101,7 +103,7 @@ Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+/* 
 Route::get('/', function () {
     return view('welcome');
 });
@@ -118,4 +120,40 @@ Route::resource('photos', PhotoController::class)->only([
 Route::resource('photos', PhotoController::class)->except([
     'create', 'store', 'update', 'destroy'
 ]);
+ */
+//*-- Membuat VIEW
+/* Route::get('/greeting', function () {
+    return view('hello', ['name' => 'Johnatan']);
+});
+ */
+//4.c
+/* Route::get('/greeting', function () {
+	return view('blog.hello', ['name' => 'Avatar']);
+}); */
 
+//5.b (menampilkan View dari controller)
+Route::get('/greeting', [WelcomeController::class, 'greeting']);
+return view('blog.hello', ['name' => 'Andi']);
+
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SalesController;
+
+// Halaman Home
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Routes untuk kategori produk
+Route::prefix('category')->group(function () {
+    Route::get('/food-beverage', [ProductController::class, 'foodBeverage']);
+    Route::get('/beauty-health', [ProductController::class, 'beautyHealth']);
+    Route::get('/home-care', [ProductController::class, 'homeCare']);
+    Route::get('/baby-kid', [ProductController::class, 'babyKid']);
+});
+
+// Route untuk user dengan parameter
+Route::get('/user/{id}/name/{name}', [UserController::class, 'show']);
+
+// Route untuk halaman POS (penjualan)
+Route::get('/sales', [SalesController::class, 'index']);
